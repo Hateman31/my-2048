@@ -1,10 +1,11 @@
 # my-2048
 
-FIXME: Write a one-line description of your library/project.
+Clone of popular game 2048 made via ClojureScript.
 
 ## Overview
 
-FIXME: Write a paragraph about the library/project and highlight its goals.
+Good way to learn new language is build app!
+I choose this one.
 
 ## Setup
 
