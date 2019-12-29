@@ -4,8 +4,9 @@
   (let [[m n] point]
     (.fillRect ctx m n 80 80)))
 
-(defn get-grid [x]
-  (for [m x] (for [n x] [m n])))
+(defn get-grid [step rank gap]
+  (let [line (for [x (range rank)] (+ (* x rank) gap))]
+    (for [m line] (for [n line] [m n]))))
 
 (defn get-ctx [canvas]
   (.getContext canvas "2d"))
