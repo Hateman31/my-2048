@@ -8,8 +8,10 @@
   (for [rank (range size)] (* rank (+ step gap))))
 
 (defn get-grid [step rank gap]
-  (let [line (get-row step rank gap)]
-    (for [m line] (for [n line] [m n]))))
+  (let [line (get-row step rank gap)
+        f #(reduce conj %1 %2)
+        cells (for [m line] (for [n line] [m n]))]
+        (reduce f cells)))
 
 (defn get-ctx [canvas]
   (.getContext canvas "2d"))
@@ -25,5 +27,4 @@
     (.fillText ctx text x y)))
 
 (defn build-grid [grid ctx]
-  (dorun (for [row grid] ;; build grid
-    (dorun (for [point row] (draw-square point ctx))))))
+  (dorun (for [point grid] (draw-square point ctx))))
