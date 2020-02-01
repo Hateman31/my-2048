@@ -28,3 +28,4 @@
 
 (defn build-grid [grid ctx]
   (dorun (for [point grid] (draw-square point ctx))))
+
