@@ -16,6 +16,12 @@
     :down [[12 8 4 0] [13 9 5 1] [14 10 6 2] [15 11 7 3]]
     :right [[3 2 1 0] [7 6 5 4] [11 10 9 8] [15 14 13 12]]})
 
+(defn add-row-zeroes [row]
+    (let [len (count row)
+          delta (- 4 len)
+          zeroes (repeat delta 0)]
+      (reduce conj row zeroes)))
+
 (defn matrix-to-vector [matrix]
   (loop [[x & xs] matrix, res []]
     (let [el (reduce conj res x)]
