@@ -13,7 +13,7 @@
         (== x y) (recur (conj res (* 2 x)) xs)
         :else (recur (conj res x) ys)))))
 
-(defn field-transform [game-field direction]
+(defn field-transform [direction game-field]
   (let [transition (field-transitions direction)]
     (for [cell-num transition]
       (get game-field cell-num))))
@@ -34,9 +34,21 @@
         el
         (recur xs el)))))
 
+(def update-row
+  (comp add-zeroes collapse-row del-zeroes))
+
+(def divide-by-4 
+  (partial partition 4))
+
+(defn transform-grid [direction grid]
+  (let [game-field (matrix-to-vector grid)]
+    (field-transform direction game-field)))
+
+(defn transform [direction]
+  (let [f (partial transform-grid direction)]
+    (comp vec divide-by-4 f))) 
+
 (defn update-grid [grid direction] 
-  (let [game-field (matrix-to-vector grid)
-        transformed-field (field-transform game-field direction)
-        new-grid (partition 4 transformed-field)]
-    (vec (for [row new-grid]
-        ((comp add-zeroes collapse-row del-zeroes) row)))))
+  (let [f (transform direction)
+        new-grid (f grid)]
+      (f (mapv update-row new-grid))))
