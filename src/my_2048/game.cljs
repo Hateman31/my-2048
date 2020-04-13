@@ -2,7 +2,7 @@
 
 (def field-transitions
   { :up  [0 4 8 12 1 5 9 13 2 6 10 14 3 7 11 15]
-    :down [12 8 4 0 13 9 5 1 14 10 6 2 15 11 7 3]
+    :down [15 11 7 3 14 10 6 2 13 9 5 1 12 8 4 0]
     :right [3 2 1 0 7 6 5 4 11 10 9 8 15 14 13 12]})
 
 (defn collapse-row [row]
@@ -38,7 +38,7 @@
   (comp add-zeroes collapse-row del-zeroes))
 
 (def divide-by-4 
-  (partial partition 4))
+  (comp (partial mapv vec) (partial partition 4)))
 
 (defn transform-grid [direction grid]
   (let [game-field (matrix-to-vector grid)]
@@ -49,6 +49,8 @@
     (comp vec divide-by-4 f))) 
 
 (defn update-grid [grid direction] 
-  (let [f (transform direction)
-        new-grid (f grid)]
-      (f (mapv update-row new-grid))))
+  (if (= direction :left)
+    (mapv update-row grid)
+    (let [t (transform direction)
+          new-grid (t grid)]
+        (t (mapv update-row new-grid)))))
