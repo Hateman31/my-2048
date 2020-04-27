@@ -34,6 +34,28 @@
         el
         (recur xs el)))))
 
+(defn get-2-or-4 []
+  (let [p (rand)]
+    (if (>= p 0.95) 4 2)))
+
+(defn get-rand-index [coll fun]
+  (let [coll-map (map-indexed vector coll)
+        indexes (for 
+          [[i item] coll-map :when (fun item)] i)]
+    (if (empty? indexes)
+      nil
+      (rand-nth indexes))))
+
+(defn get-empty-cell [grid]
+  (let [
+    row-index (get-rand-index grid contains-zero?)]
+    (if (nil? row-index)
+      nil
+      [row-index (get-rand-index (grid row-index) zero?)])))
+
+(def contains-zero?
+  (partial some zero?))
+
 (def update-row
   (comp add-zeroes collapse-row del-zeroes))
 
