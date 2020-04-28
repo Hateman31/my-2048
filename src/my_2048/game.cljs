@@ -46,6 +46,9 @@
       nil
       (rand-nth indexes))))
 
+(def contains-zero?
+  (partial some zero?))
+
 (defn get-empty-cell [grid]
   (let [
     row-index (get-rand-index grid contains-zero?)]
@@ -53,8 +56,17 @@
       nil
       [row-index (get-rand-index (grid row-index) zero?)])))
 
-(def contains-zero?
-  (partial some zero?))
+(defn update-coll [coll index new-item]
+  (let [coll-map (map-indexed vector coll)]
+    (vec (for [[n item] coll-map]
+      (if (= n index) new-item item)))))
+
+(defn add-new-item [grid cell]
+  (let [[x y] cell
+        row (grid x)
+        new-item (get-2-or-4)
+        new-row (update-coll row y new-item)]
+      (update-coll grid x new-row)))
 
 (def update-row
   (comp add-zeroes collapse-row del-zeroes))
