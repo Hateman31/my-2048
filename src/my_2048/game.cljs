@@ -5,6 +5,9 @@
     :down [15 11 7 3 14 10 6 2 13 9 5 1 12 8 4 0]
     :right [3 2 1 0 7 6 5 4 11 10 9 8 15 14 13 12]})
 
+(defn has-pair? [row]
+  (not (some true? (map == row (rest row)))))
+
 (defn collapse-row [row]
   (loop [res [], row row]
     (let [[x & [y & xs :as ys]] row]
