@@ -5,8 +5,22 @@
     :down [15 11 7 3 14 10 6 2 13 9 5 1 12 8 4 0]
     :right [3 2 1 0 7 6 5 4 11 10 9 8 15 14 13 12]})
 
+(defn matrix-to-vector [matrix]
+  (loop [[x & xs] matrix, res []]
+    (let [el (reduce conj res x)]
+      (if (nil? xs)
+        el
+        (recur xs el)))))
+
 (defn has-pair? [row]
-  (not (some true? (map == row (rest row)))))
+  (not (nil? 
+    (some true? (map == row (rest row))))))
+
+(defn able-2-move? [grid]
+  (let [game-field (matrix-to-vector grid)]
+    (not (nil? (or 
+      (some zero? game-field)
+      (some true? (map has-pair? grid)))))))
 
 (defn collapse-row [row]
   (loop [res [], row row]
@@ -29,13 +43,6 @@
           delta (- 4 len)
           zeroes (repeat delta 0)]
       (reduce conj row zeroes)))
-
-(defn matrix-to-vector [matrix]
-  (loop [[x & xs] matrix, res []]
-    (let [el (reduce conj res x)]
-      (if (nil? xs)
-        el
-        (recur xs el)))))
 
 (defn get-2-or-4 []
   (let [p (rand)]
