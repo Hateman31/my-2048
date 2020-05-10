@@ -52,8 +52,7 @@
   (let [coll-map (map-indexed vector coll)
         indexes (for 
           [[i item] coll-map :when (fun item)] i)]
-    (if (empty? indexes)
-      nil
+    (if (some number? indexes)
       (rand-nth indexes))))
 
 (def contains-zero?
