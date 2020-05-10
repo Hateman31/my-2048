@@ -60,10 +60,9 @@
   (partial some zero?))
 
 (defn get-empty-cell [grid]
-  (let [
-    row-index (get-rand-index grid contains-zero?)]
-    (if (nil? row-index)
-      nil
+  (let 
+    [row-index (get-rand-index grid contains-zero?)]
+    (if (number? row-index)
       [row-index (get-rand-index (grid row-index) zero?)])))
 
 (defn update-coll [coll index new-item]
