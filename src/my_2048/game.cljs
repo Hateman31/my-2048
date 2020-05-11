@@ -16,11 +16,11 @@
   (not (nil? 
     (some true? (map == row (rest row))))))
 
-(defn able-2-move? [grid]
+(defn lose? [grid]
   (let [game-field (matrix-to-vector grid)]
-    (not (nil? (or 
+    (or 
       (some zero? game-field)
-      (some true? (map has-pair? grid)))))))
+      (some true? (map has-pair? grid)))))
 
 (defn collapse-row [row]
   (loop [res [], row row]
