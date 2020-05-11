@@ -17,9 +17,9 @@
 
 (defn lose? [grid]
   (let [game-field (matrix-to-vector grid)]
-    (or 
+    (not (or 
       (some zero? game-field)
-      (some true? (map has-pair? grid)))))
+      (some has-pair? grid)))))
 
 (defn collapse-row [row]
   (loop [res [], row row]
