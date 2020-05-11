@@ -21,6 +21,10 @@
       (some zero? game-field)
       (some has-pair? grid)))))
 
+(defn win? [grid]
+  (let [game-field (matrix-to-vector grid)]
+      (some (partial == 2048) grid)))
+
 (defn collapse-row [row]
   (loop [res [], row row]
     (let [[x & [y & xs :as ys]] row]
