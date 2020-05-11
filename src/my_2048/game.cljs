@@ -13,8 +13,7 @@
         (recur xs el)))))
 
 (defn has-pair? [row]
-  (not (nil? 
-    (some true? (map == row (rest row))))))
+    (some true? (map == row (rest row))))
 
 (defn lose? [grid]
   (let [game-field (matrix-to-vector grid)]
