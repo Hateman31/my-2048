@@ -1,5 +1,6 @@
 (ns my-2048.core
-  (:require [my-2048.utils :as u]))
+  (:require [my-2048.utils :as u]
+    [my-2048.game :as g]))
 
 (enable-console-print!)
 
