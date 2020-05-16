@@ -4,14 +4,15 @@
   (let [[m n] point]
     (.fillRect ctx m n 80 80)))
 
-(defn get-row [step size gap]
-  (for [rank (range size)] (* rank (+ step gap))))
+(defn get-row [size delta]
+  (mapv #(* delta %1) (range size)))
 
 (defn get-grid [step rank gap]
-  (let [line (get-row step rank gap)
-        f #(reduce conj %1 %2)
-        cells (for [m line] (for [n line] [m n]))]
-        (reduce f cells)))
+  (let [delta (+ step gap)
+      line (get-row rank delta)
+      f #(reduce conj (vec %1) (vec %2))
+      cells (for [m line] (for [n line] [n m]))]
+    (reduce f cells)))
 
 (defn get-ctx [canvas]
   (.getContext canvas "2d"))
@@ -22,16 +23,25 @@
 (defn set-font [ctx font]
   (set! (.-font ctx) font))
 
-(defn set-text [ctx text cell]
-  (let [[x y] cell]
-    (.fillText ctx text x y)))
-
-(defn build-grid [grid ctx]
-  (dorun (for [point grid] (draw-square point ctx))))
-
+(defn draw-field [ctx game-field]
+  (doseq [[point cell-value] game-field] 
+    (set-color ctx "black")
+    (draw-square point ctx))
+  (doseq [[point cell-value] game-field] 
+    (set-color ctx "orange")
+    (set-font ctx "77px serif")
+    (let [text (str cell-value)
+        [x y] point]
+      (.fillText ctx text (+ x 13) (+ y 70)))))
+      
 (defn clear-canvas [canvas]
   (let [ctx (get-ctx canvas)
         w (.-width canvas)
         h (.-height canvas)]
     (.clearRect ctx 0 0 w h)))
 
+; (defn render [canvas game-state]
+;   (clear-canvas canvas)
+;   (let [ctx (get-ctx canvas)
+;         grid (get-grid 80 4 3)]
+;     (build-grid grid ctx)))

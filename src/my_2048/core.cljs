@@ -13,10 +13,13 @@
 (def grid
   (u/get-grid 80 4 3))
 
-; (def cell [116 65])
-; (u/set-color background "red")
-; (u/set-font background "77px serif")
-; (u/set-text background "Hello" cell)
-
-(u/build-grid grid background)
+(let [
+  game-matrix 
+    [[2 4 2 4]
+    [2 4 2 4]
+    [2 4 2 4]
+    [2 4 2 4]]
+  game-state (g/matrix-to-vector game-matrix)
+  game-field (map list grid game-state)]
+  (u/draw-field background game-field))
 
