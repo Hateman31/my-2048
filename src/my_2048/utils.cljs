@@ -29,3 +29,9 @@
 (defn build-grid [grid ctx]
   (dorun (for [point grid] (draw-square point ctx))))
 
+(defn clear-canvas [canvas]
+  (let [ctx (get-ctx canvas)
+        w (.-width canvas)
+        h (.-height canvas)]
+    (.clearRect ctx 0 0 w h)))
+
