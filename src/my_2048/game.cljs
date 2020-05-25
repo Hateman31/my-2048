@@ -97,5 +97,11 @@
   (if (= direction :left)
     (mapv update-row grid)
     (let [t (transform direction)
-          new-grid (t grid)]
-        (t (mapv update-row new-grid)))))
+          shifted-grid
+            (->> grid
+              t (mapv update-row) t)
+          free-cell (get-empty-cell shifted-grid)]
+      (if free-cell
+        (add-new-item shifted-grid free-cell)
+        shifted-grid))))
+    
