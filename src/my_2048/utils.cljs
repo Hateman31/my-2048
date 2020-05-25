@@ -1,5 +1,11 @@
 (ns my-2048.utils)
 
+(def arrow-direction {
+      "ArrowDown" :down
+      "ArrowUp" :up
+      "ArrowLeft" :left
+      "ArrowRight" :right})
+
 (defn draw-square [point ctx]
   (let [[m n] point]
     (.fillRect ctx m n 80 80)))
@@ -39,9 +45,3 @@
         w (.-width canvas)
         h (.-height canvas)]
     (.clearRect ctx 0 0 w h)))
-
-; (defn render [canvas game-state]
-;   (clear-canvas canvas)
-;   (let [ctx (get-ctx canvas)
-;         grid (get-grid 80 4 3)]
-;     (build-grid grid ctx)))
