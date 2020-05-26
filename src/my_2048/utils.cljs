@@ -29,16 +29,28 @@
 (defn set-font [ctx font]
   (set! (.-font ctx) font))
 
+(defn get-font-size [value]
+  (str 
+    (cond 
+      (< value 16) 77
+      (< value 128) 60
+      (< value 1024) 33
+      :else 27)))
+
 (defn draw-field [ctx game-field]
   (doseq [[point cell-value] game-field] 
     (set-color ctx "black")
     (draw-square point ctx))
   (doseq [[point cell-value] game-field] 
-    (set-color ctx "orange")
-    (set-font ctx "77px serif")
-    (let [text (str cell-value)
-        [x y] point]
-      (.fillText ctx text (+ x 13) (+ y 70)))))
+    (if (> cell-value 0)
+      (let [text (str cell-value)
+          [x y] point
+          font-size (get-font-size cell-value)
+          font (str font-size "px serif")]
+        (set-color ctx "orange")
+        (set-font ctx font)
+        ; (.log js/console font cell-value)
+        (.fillText ctx text (+ x (* 0.05 font-size)) (+ y 70))))))
       
 (defn clear-canvas [canvas]
   (let [ctx (get-ctx canvas)
