@@ -94,14 +94,14 @@
     (comp vec divide-by-4 f))) 
 
 (defn update-grid [grid direction] 
-  (if (= direction :left)
-    (mapv update-row grid)
     (let [t (transform direction)
           shifted-grid
-            (->> grid
-              t (mapv update-row) t)
+            (if (= direction :left)
+              (mapv update-row grid)
+              (->> grid
+                t (mapv update-row) t))
           free-cell (get-empty-cell shifted-grid)]
       (if free-cell
         (add-new-item shifted-grid free-cell)
-        shifted-grid))))
+        shifted-grid)))
     
