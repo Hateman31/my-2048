@@ -104,4 +104,14 @@
       (if free-cell
         (add-new-item shifted-grid free-cell)
         shifted-grid)))
-    
+
+(defn init-state []
+  (let [
+      row [0 0 0 0]
+      state (vec (repeat 4 row))
+      rand-pair #(take 2 (shuffle (range 4)))
+      [x1 x2] (rand-pair)
+      [y1 y2] (rand-pair)]
+    (-> state
+      (add-new-item [x1 y1])
+      (add-new-item [x2 y2]))))
