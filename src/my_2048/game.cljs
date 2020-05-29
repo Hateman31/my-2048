@@ -15,6 +15,11 @@
 (defn has-pair? [row]
     (some true? (map == row (rest row))))
 
+(defn shift-possible? [row]
+  (or 
+    (has-pair? row)
+    (some zero? (take 3 row))))
+
 (defn lose? [grid]
   (let [game-field (matrix-to-vector grid)]
     (not (or 
