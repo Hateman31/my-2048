@@ -14,11 +14,7 @@
   (u/get-grid 80 4 3))
 
 (def game-state
-  (atom [
-    [4 2 2 4]
-    [16 8 4 2]
-    [32 16 128 256]
-    [2 4 2 4]]))
+  (atom (g/init-state)))
 
 (defn render-game [game-state]
   (let [
@@ -31,7 +27,6 @@
     (let [direction (u/arrow-direction event.key)]
       (if direction
         (let [shift #(g/update-grid %1 direction)]
-          ; (println @game-state)
           (swap! game-state shift))))))
 
 (add-watch game-state :updating
@@ -41,10 +36,8 @@
   #((let [game-state %4]
       (cond 
         (g/win? game-state)
-        (do (u/clear-canvas game)
-         (js/alert "You won!"))
+          (js/alert "You won!")
         (g/lose? game-state)
-        (do (u/clear-canvas game)
-         (js/alert "You lost!"))))))
+          (js/alert "You lost!")))))
 
 (render-game @game-state)
