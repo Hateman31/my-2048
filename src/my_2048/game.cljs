@@ -15,20 +15,13 @@
 (defn has-pair? [row]
     (some true? (map == row (rest row))))
 
+(defn has-zero? [row]
+  (some zero? row))
+
 (defn shift-possible? [row]
   (or 
     (has-pair? row)
-    (some zero? (take 3 row))))
-
-(defn lose? [grid]
-  (let [game-field (matrix-to-vector grid)]
-    (not (or 
-      (some zero? game-field)
-      (some has-pair? grid)))))
-
-(defn win? [grid]
-  (let [game-field (matrix-to-vector grid)]
-      (some (partial == 2048) grid)))
+    (has-zero? (take 3 row))))
 
 (defn collapse-row [row]
   (loop [res [], row row]
@@ -37,11 +30,6 @@
         (nil? y) (into res row)
         (== x y) (recur (conj res (* 2 x)) xs)
         :else (recur (conj res x) ys)))))
-
-(defn field-transform [direction game-field]
-  (let [transition (field-transitions direction)]
-    (for [cell-num transition]
-      (get game-field cell-num))))
 
 (defn del-zeroes [row]
   (vec (for [c row :when (not= c 0)] c)))
@@ -90,21 +78,28 @@
 (def divide-by-4 
   (comp (partial mapv vec) (partial partition 4)))
 
-(defn transform-grid [direction grid]
-  (let [game-field (matrix-to-vector grid)]
-    (field-transform direction game-field)))
+(defn field-transform [direction game-field]
+  (let [transition (field-transitions direction)]
+    (for [cell-num transition]
+      (get game-field cell-num))))
 
-(defn transform [direction]
-  (let [f (partial transform-grid direction)]
-    (comp vec divide-by-4 f))) 
+(defn rotate-grid [direction grid]
+  (->> grid
+    matrix-to-vector
+    (field-transform direction)
+    divide-by-4
+    vec))
 
 (defn update-grid [grid direction] 
-    (let [t (transform direction)
+    (let [rotate #(rotate-grid direction %1) 
+          update-rows #(mapv update-row %1)
           shifted-grid
             (if (= direction :left)
-              (mapv update-row grid)
+              (update-rows grid)
               (->> grid
-                t (mapv update-row) t))
+                rotate 
+                update-rows 
+                rotate))
           free-cell (get-empty-cell shifted-grid)]
       (if free-cell
         (add-new-item shifted-grid free-cell)
@@ -120,3 +115,16 @@
     (-> state
       (add-new-item [x1 y1])
       (add-new-item [x2 y2]))))
+
+(defn lose? [grid]
+  (let [
+    movable-row? #(or (has-zero? %1) (has-pair? %1))
+    rotated-grid (rotate-grid :up grid)
+    unmovable-grid? #(not-any? movable-row? %1)]
+    (and 
+      (unmovable-grid? grid)
+      (unmovable-grid? rotated-grid))))
+
+(defn win? [grid]
+  (let [game-field (matrix-to-vector grid)]
+      (some (partial == 2048) grid)))
