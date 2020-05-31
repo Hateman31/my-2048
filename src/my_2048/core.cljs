@@ -24,10 +24,16 @@
 
 (.addEventListener js/document "keydown" 
   (fn [event] 
-    (let [direction (u/arrow-direction event.key)]
-      (if direction
-        (let [shift #(g/update-grid %1 direction)]
-          (swap! game-state shift))))))
+    (let [
+      direction (u/arrow-direction event.key)
+      shift #(g/update-grid %1 direction)]
+      (if 
+        (and 
+          direction 
+          (->> @game-state
+            (g/rotate-grid direction)
+            g/grid-movable? ))
+        (swap! game-state shift)))))
 
 (add-watch game-state :updating
   #(render-game %4))
