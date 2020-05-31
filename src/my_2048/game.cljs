@@ -23,6 +23,9 @@
     (has-pair? row)
     (has-zero? (take 3 row))))
 
+(defn grid-movable? [grid]
+  (some shift-possible? grid))
+
 (defn collapse-row [row]
   (loop [res [], row row]
     (let [[x & [y & xs :as ys]] row]
@@ -84,11 +87,13 @@
       (get game-field cell-num))))
 
 (defn rotate-grid [direction grid]
-  (->> grid
-    matrix-to-vector
-    (field-transform direction)
-    divide-by-4
-    vec))
+  (if (= direction :left)
+    grid
+    (->> grid
+      matrix-to-vector
+      (field-transform direction)
+      divide-by-4
+      vec)))
 
 (defn update-grid [grid direction] 
     (let [rotate #(rotate-grid direction %1) 
