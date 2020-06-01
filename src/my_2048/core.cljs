@@ -17,10 +17,11 @@
   (atom (g/init-state)))
 
 (defn render-game [game-state]
-  (let [
-      game-field (map list grid (g/matrix-to-vector game-state))] 
-    (u/clear-canvas game)
-    (u/draw-field background game-field)))
+  (u/clear-canvas game)
+  (->> game-state
+      g/matrix-to-vector
+      (map list grid)
+      (u/draw-field background)))
 
 (.addEventListener js/document "keydown" 
   (fn [event] 
