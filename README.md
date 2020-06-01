@@ -1,11 +1,17 @@
 # my-2048
 
 Clone of popular game 2048 made via ClojureScript.
+For playing demo:
+ 1) Download zip-archive via link below
+ 2) Unzip it
+ 3) Open ```index.html``` in your browser
+ 4) Enjoy!
+https://drive.google.com/file/d/1hu3rnvhGsIOWg2A_bPQgJU1McgUrAXYn/view?usp=sharing
 
 ## Overview
 
-Good way to learn new language is build app!
-I choose this one.
+Good way to learn a new programming language it is a building app on this language!
+I have choiced CLojure.
 
 ## Setup
 
