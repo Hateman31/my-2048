@@ -18,10 +18,14 @@
 (defn has-zero? [row]
   (some zero? row))
 
+(defn can-merge? [[a b]]
+  (or
+    (and (> a 0) (== a b))
+    (and (zero? a) (> b a))))
+
 (defn shift-possible? [row]
-  (or 
-    (has-pair? row)
-    (has-zero? (take 3 row))))
+  (->> (map list row (rest row))
+    (some can-merge?)))
 
 (defn grid-movable? [grid]
   (some shift-possible? grid))
