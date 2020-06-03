@@ -10,9 +10,6 @@
 (def background 
   (.getContext game "2d"))
 
-(def grid
-  (u/get-grid 80 4 3))
-
 (def game-state
   (atom (g/init-state)))
 
@@ -20,7 +17,7 @@
   (u/clear-canvas game)
   (->> game-state
       g/matrix-to-vector
-      (map list grid)
+      (map list (u/get-grid 80 4 3))
       (u/draw-field background)))
 
 (.addEventListener js/document "keydown" 
