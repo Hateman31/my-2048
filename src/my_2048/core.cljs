@@ -2,7 +2,7 @@
   (:require [my-2048.utils :as u]
     [my-2048.game :as g]))
 
-(enable-console-print!)
+; (enable-console-print!)
 
 (def game 
   (.getElementById js/document "game"))
