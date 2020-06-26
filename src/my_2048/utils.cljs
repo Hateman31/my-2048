@@ -32,10 +32,17 @@
 (defn get-font-size [value]
   (str 
     (cond 
-      (< value 16) 77
-      (< value 128) 60
+      (< value 16) 45
+      (< value 128) 40
       (< value 1024) 33
       :else 27)))
+
+(defn get-delta-x [value]
+  (cond 
+    (< value 16) 24
+    (< value 128) 16
+    (< value 1024) 9
+    :else 6))
 
 (defn draw-field [ctx game-field]
   (doseq [[point cell-value] game-field] 
@@ -46,11 +53,12 @@
       (let [text (str cell-value)
           [x y] point
           font-size (get-font-size cell-value)
-          font (str font-size "px serif")]
+          font (str font-size "px serif")
+          delta-x (get-delta-x cell-value)
+          delta-y 55]
         (set-color ctx "orange")
         (set-font ctx font)
-        ; (.log js/console font cell-value)
-        (.fillText ctx text (+ x (* 0.05 font-size)) (+ y 70))))))
+        (.fillText ctx text (+ x delta-x) (+ y delta-y))))))
       
 (defn clear-canvas [canvas]
   (let [ctx (get-ctx canvas)
