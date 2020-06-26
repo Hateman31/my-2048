@@ -10,9 +10,6 @@
 (def background 
   (.getContext game "2d"))
 
-(def game-state
-  (atom (g/init-state)))
-
 (defn render-game [game-state]
   (u/clear-canvas game)
   (->> game-state
@@ -20,17 +17,19 @@
       (map list (u/get-grid 80 4 3))
       (u/draw-field background)))
 
+(def game-state
+  (atom (g/init-state)))
+
 (.addEventListener js/document "keydown" 
   (fn [event] 
     (let [
       direction (u/arrow-direction event.key)
       shift #(g/update-grid %1 direction)]
-      (if 
-        (and 
-          direction 
-          (->> @game-state
-            (g/rotate-grid direction)
-            g/grid-movable? ))
+      (if (and 
+            direction 
+            (->> @game-state
+              (g/rotate-grid direction)
+              g/grid-movable? ))
         (swap! game-state shift)))))
 
 (add-watch game-state :updating
