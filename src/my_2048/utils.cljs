@@ -20,6 +20,10 @@
   1024 "#edc53f",
   2048 "#edc22e"})
 
+(def font-color {
+  true "#776e65"
+  false "#f9f6f2"})
+
 (defn draw-square [point ctx]
   (let [[m n] point]
     (.fillRect ctx m n 80 80)))
@@ -60,7 +64,8 @@
 
 (defn draw-field [ctx game-field]
   (doseq [[point cell-value] game-field] 
-    (set-color ctx "black")
+    ; (set-color ctx "black")
+    (set-color ctx (tile-color cell-value))
     (draw-square point ctx))
   (doseq [[point cell-value] game-field] 
     (if (> cell-value 0)
@@ -70,7 +75,9 @@
           font (str font-size "px serif")
           delta-x (get-delta-x cell-value)
           delta-y 55]
-        (set-color ctx "orange")
+        ; (set-color ctx "white")
+        (set-color ctx (font-color (< cell-value 8)))
+        (println (font-color (< cell-value 8)) cell-value)
         (set-font ctx font)
         (.fillText ctx text (+ x delta-x) (+ y delta-y))))))
       
