@@ -75,9 +75,7 @@
           font (str font-size "px serif")
           delta-x (get-delta-x cell-value)
           delta-y 55]
-        ; (set-color ctx "white")
         (set-color ctx (font-color (< cell-value 8)))
-        (println (font-color (< cell-value 8)) cell-value)
         (set-font ctx font)
         (.fillText ctx text (+ x delta-x) (+ y delta-y))))))
       
