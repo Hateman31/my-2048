@@ -28,15 +28,18 @@
   (let [[m n] point]
     (.fillRect ctx m n 80 80)))
 
-(defn get-row [size delta]
-  (mapv #(* delta %1) (range size)))
-
-(defn get-grid [step rank gap]
-  (let [delta (+ step gap)
-      line (get-row rank delta)
-      f #(reduce conj (vec %1) (vec %2))
-      cells (for [m line] (for [n line] [n m]))]
-    (reduce f cells)))
+;; (defn generate-row [row-size multiplier]
+;;   )
+    
+(defn get-vertexes [tile-side grid-side-size tile-gap]
+  (let [vertex-distance (+ tile-side tile-gap)
+        vertex-xy (for [vertex-num (range grid-side-size)] 
+                    (* vertex-distance vertex-num))
+        position2vec #(reduce conj (vec %1) (vec %2))
+        vertexes (for [x vertex-xy] 
+                    (for [y vertex-xy] [y x]))]
+    (reduce position2vec [] vertexes)))
+    ;; tiles-positions))
 
 (defn get-ctx [canvas]
   (.getContext canvas "2d"))

@@ -23,12 +23,12 @@
     (and (> a 0) (== a b))
     (and (zero? a) (> b a))))
 
-(defn shift-possible? [row]
+(defn row-shiftable? [row]
   (->> (map list row (rest row))
     (some can-merge?)))
 
 (defn grid-movable? [grid]
-  (some shift-possible? grid))
+  (some row-shiftable? grid))
 
 (defn collapse-row [row]
   (loop [res [], row row]

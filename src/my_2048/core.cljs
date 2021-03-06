@@ -14,7 +14,7 @@
   (u/clear-canvas game)
   (->> game-state
       g/matrix-to-vector
-      (map list (u/get-grid 80 4 3))
+      (map list (u/get-vertexes 80 4 3))
       (u/draw-field background)))
 
 (def game-state
