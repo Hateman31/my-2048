@@ -1,2 +1,10 @@
 /* some style */
+#game { 
+    border: 1px solid black; 
+}
 
+#app { 
+    display: flex;
+    flex-flow: column ;
+    align-items: center;
+}
