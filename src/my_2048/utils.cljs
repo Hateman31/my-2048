@@ -24,12 +24,9 @@
   true "#776e65"
   false "#f9f6f2"})
 
-(defn draw-square [point ctx]
+(defn draw-square [point ctx tile-size]
   (let [[m n] point]
-    (.fillRect ctx m n 80 80)))
-
-;; (defn generate-row [row-size multiplier]
-;;   )
+    (.fillRect ctx m n tile-size tile-size)))
     
 (defn get-vertexes [tile-side grid-side-size tile-gap]
   (let [vertex-distance (+ tile-side tile-gap)
@@ -39,7 +36,6 @@
         vertexes (for [x vertex-xy] 
                     (for [y vertex-xy] [y x]))]
     (reduce position2vec [] vertexes)))
-    ;; tiles-positions))
 
 (defn get-ctx [canvas]
   (.getContext canvas "2d"))
@@ -65,11 +61,10 @@
     (< value 1024) 9
     :else 6))
 
-(defn draw-field [ctx game-field]
+(defn draw-field [ctx tile-size game-field ]
   (doseq [[point cell-value] game-field] 
-    ; (set-color ctx "black")
     (set-color ctx (tile-color cell-value))
-    (draw-square point ctx))
+    (draw-square point ctx tile-size))
   (doseq [[point cell-value] game-field] 
     (if (> cell-value 0)
       (let [text (str cell-value)

@@ -2,10 +2,18 @@
   (:require [my-2048.utils :as u]
     [my-2048.game :as g]))
 
-; (enable-console-print!)
-
 (def game 
   (.getElementById js/document "game"))
+
+(def grid-size
+  (let [w (.-innerWidth js/window)
+        h (.-innerHeight js/window)]
+    (* 0.8 (min w h))))
+
+(def tile-size
+  (let [f1 #(- %1 9)
+        f2 #(/ %1 4)]
+    (-> (.-width game) f1 f2)))
 
 (def background 
   (.getContext game "2d"))
@@ -14,8 +22,8 @@
   (u/clear-canvas game)
   (->> game-state
       g/matrix-to-vector
-      (map list (u/get-vertexes 80 4 3))
-      (u/draw-field background)))
+      (map list (u/get-vertexes tile-size 4 3))
+      (u/draw-field background tile-size)))
 
 (def game-state
   (atom (g/init-state)))
