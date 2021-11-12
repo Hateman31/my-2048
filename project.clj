@@ -34,6 +34,8 @@
                            :output-to "resources/public/js/compiled/my_2048.js"
                            :output-dir "resources/public/js/compiled/out"
                            :source-map-timestamp true
+                           :install-deps true
+                           :npm-deps {:baconjs "3.0.17"}
                            ;; To console.log CLJS data-structures make sure you enable devtools in Chrome
                            ;; https://github.com/binaryage/cljs-devtools
                            :preloads [devtools.preload]}}
