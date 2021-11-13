@@ -1,5 +1,5 @@
 (ns my-2048.core
-  (:require [baconjs :as bacon]))
+  (:require [bacon :as bacon]))
 
 (defn do-when
   [source f]
