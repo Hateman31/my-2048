@@ -28,27 +28,29 @@
 (def game-state
   (atom (g/init-state)))
 
-(.addEventListener js/document "keydown" 
-  (fn [event] 
-    (let [
-      direction (u/arrow-direction event.key)
-      shift #(g/update-grid %1 direction)]
-      (if (and 
-            direction 
-            (->> @game-state
-              (g/rotate-grid direction)
-              g/grid-movable? ))
-        (swap! game-state shift)))))
+(defn main []
+ (do 
+  (.addEventListener js/document "keydown" 
+    (fn [event] 
+      (let [
+        direction (u/arrow-direction event.key)
+        shift #(g/update-grid %1 direction)]
+        (if (and 
+              direction 
+              (->> @game-state
+                (g/rotate-grid direction)
+                g/grid-movable? ))
+          (swap! game-state shift)))))
 
-(add-watch game-state :updating
-  #(render-game %4))
+  (add-watch game-state :updating
+    #(render-game %4))
 
-(add-watch game-state :game-ending
-  #((let [game-state %4]
-      (cond 
-        (g/win? game-state)
-          (js/alert "You won!")
-        (g/lose? game-state)
-          (js/alert "You lost!")))))
-
-(render-game @game-state)
+  (add-watch game-state :game-ending
+    #((let [game-state %4]
+        (cond 
+          (g/win? game-state)
+            (js/alert "You won!")
+          (g/lose? game-state)
+            (js/alert "You lost!")))))
+  
+  (render-game @game-state)))
