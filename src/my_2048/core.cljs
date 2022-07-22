@@ -1,6 +1,9 @@
 (ns my-2048.core
   (:require [my-2048.utils :as u]
-    [my-2048.game :as g]))
+    [my-2048.game :as g]
+    [rxjs :as rx]
+    [my-2048.swipe :as swipe]
+    ))
 
 (def game 
   (.getElementById js/document "game"))
@@ -40,8 +43,9 @@
 
 (defn main []
  (do 
-  (.addEventListener js/document "keydown"
-    (fn [event] (update-field! (u/arrow-direction event.key)))) 
+  (.subscribe (swipe/arrowSwipe) update-field!)
+  (.subscribe (swipe/touchSwipe js/document) update-field!)
+  ;; (.subscribe (swipe/touchSwipe game) update-field!)
 
   (add-watch game-state :updating
     #(render-game %4))

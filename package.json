@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
+    "rxjs": "^7.5.6",
     "shadow-cljs": "^2.19.6"
   },
   "scripts": {
