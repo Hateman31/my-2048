@@ -12,11 +12,12 @@ I have choiced CLojure.
 
 ## Setup
 
-To get an interactive development do this:
+Supposed you are already installed Clojure and Lein. 
+To get an interactive development running do this:
 
 1. Install npm
 2. Intsall rxjs
-3. Run in the folder "npx shadow-cljs release frontend" 
+3. Execute in the folder "npx shadow-cljs watch frontend" 
 
 ## License
 
