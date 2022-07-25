@@ -2,7 +2,7 @@
 
 Clone of popular game 2048 made via ClojureScript.
 
-Playing demo [here](https://hateman31.github.com).
+Playing demo [here](https://hateman31.github.io).
  
 
 ## Overview
