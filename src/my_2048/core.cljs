@@ -8,6 +8,8 @@
 (def game 
   (.getElementById js/document "game"))
 
+(def score-label (.getElementById js/document "score"))
+
 (def grid-size
   (let [w (.-innerWidth js/window)
         h (.-innerHeight js/window)]
@@ -28,8 +30,14 @@
       (map list (u/get-vertexes tile-size 4 3))
       (u/draw-field background tile-size)))
 
+(defn render-score [new-score] 
+  (set! (.-textContent score-label) new-score))
+
 (def game-state
   (atom (g/init-state)))
+
+(def score
+  (atom (g/get-score @game-state)))
 
 (defn update-field! [direction] 
       (let [
@@ -48,7 +56,11 @@
   ;; (.subscribe (swipe/touchSwipe game) update-field!)
 
   (add-watch game-state :updating
-    #(render-game %4))
+    #(do 
+       (render-game %4)
+       (swap! score (fn [] (g/get-score %4)))
+       (render-score @score)
+       ))
 
   (add-watch game-state :game-ending
     #(let [game-state %4]
@@ -58,4 +70,6 @@
           (g/lose? game-state)
             (js/alert "You lost!"))))
   
-  (render-game @game-state)))
+  (render-game @game-state)
+  (render-score @score)
+  ))

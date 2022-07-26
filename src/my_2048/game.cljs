@@ -125,6 +125,9 @@
       (add-new-item [x1 y1])
       (add-new-item [x2 y2]))))
 
+(defn get-score [state]
+  (let [f #(apply + %)] (f (map f state))))
+
 (defn lose? [grid]
   (let [
     movable-row? #(or (has-zero? %1) (has-pair? %1))
