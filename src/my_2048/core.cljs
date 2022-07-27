@@ -59,8 +59,7 @@
     #(do 
        (render-game %4)
        (swap! score (fn [] (g/get-score %4)))
-       (render-score @score)
-       ))
+       (render-score @score)))
 
   (add-watch game-state :game-ending
     #(let [game-state %4]
@@ -71,5 +70,4 @@
             (js/alert "You lost!"))))
   
   (render-game @game-state)
-  (render-score @score)
-  ))
+  (render-score @score)))
