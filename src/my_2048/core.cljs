@@ -52,8 +52,11 @@
 (defn main []
  (do 
   (.subscribe (swipe/arrowSwipe) update-field!)
-  (.subscribe (swipe/touchSwipe js/document) update-field!)
-  ;; (.subscribe (swipe/touchSwipe game) update-field!)
+  (.subscribe (swipe/touchSwipe game) update-field!)
+  ;; (.subscribe (swipe/touchSwipe js/document) update-field!)
+  (.subscribe 
+    (rx/fromEvent (.getElementById js/document "newgamebtn") "click") 
+    #(do (reset! game-state (g/init-state))))
 
   (add-watch game-state :updating
     #(do 
