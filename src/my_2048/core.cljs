@@ -71,7 +71,7 @@
   (.subscribe 
     (rx/fromEvent undobtn "click") 
       #(do (reset! game-state @prev-game-state)
-        (println @prev-game-state)))
+        (set! (.-disabled undobtn) true)))
 
   (add-watch game-state :updating
     #(do 
