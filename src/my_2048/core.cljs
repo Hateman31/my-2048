@@ -36,6 +36,9 @@
 (def game-state
   (atom (g/init-state)))
 
+(def prev-game-state
+  (atom []))
+
 (def score
   (atom (g/get-score @game-state)))
 
@@ -49,18 +52,32 @@
                 g/grid-movable? ))
           (swap! game-state shift))))
 
+(def undobtn
+  (.getElementById js/document "undobtn"))
+
 (defn main []
  (do 
+  (set! (.-disabled undobtn) true)
+
   (.subscribe (swipe/arrowSwipe) update-field!)
   (.subscribe (swipe/touchSwipe game) update-field!)
   ;; (.subscribe (swipe/touchSwipe js/document) update-field!)
   (.subscribe 
     (rx/fromEvent (.getElementById js/document "newgamebtn") "click") 
-    #(do (reset! game-state (g/init-state))))
+      #(do 
+        (reset! game-state (g/init-state))
+        (set! (.-disabled undobtn) true)))
+  
+  (.subscribe 
+    (rx/fromEvent undobtn "click") 
+      #(do (reset! game-state @prev-game-state)
+        (println @prev-game-state)))
 
   (add-watch game-state :updating
     #(do 
        (render-game %4)
+       (reset! prev-game-state %3)
+       (set! (.-disabled undobtn) false)
        (swap! score (fn [] (g/get-score %4)))
        (render-score @score)))
 
