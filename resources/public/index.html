@@ -9,15 +9,20 @@
   <body>
     <div id="app">
       <div>
-        <div>
-          <h2>My 2048</h2>
-          <p>Have a nice game!</p>
-          <div> Score: 
+        <div id="header">
+          <div id="title">
+            <h2>My 2048</h2>
+            <p>Have a nice game!</p>
+          </div>
+          <div id="scorelbl"> 
+            <div>Score:</div> 
             <div id="score">0</div>
           </div>
         </div>
-        <div><button id="newgamebtn">New Game</button></div>
-        <div><button id="undobtn">Undo</button></div>
+        <div id="menu">
+          <div><button id="newgamebtn">New Game</button></div>
+          <div><button id="undobtn">Undo</button></div>
+        </div>
       </div>
       <div id="game-field">
         <canvas id="game"></canvas>

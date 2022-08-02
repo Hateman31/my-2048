@@ -9,6 +9,16 @@
     align-items: center;
 }
 
+#header{
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+#menu, #scorelbl {
+    display: inline-flex;
+    /* margin-right: 10px; */
+}
+
 body {
     /* Disables pull-to-refresh but allows overscroll glow effects. */
     overscroll-behavior-y: contain;
