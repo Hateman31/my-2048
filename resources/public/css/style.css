@@ -1,25 +1,39 @@
-/* some style */
+body {
+    overscroll-behavior-y: contain;
+    background-color: #4d4c4c;
+}
+
 #game { 
     border: 1px solid black; 
 }
 
-#app { 
+#app{
     display: flex;
-    flex-flow: column ;
+    flex-direction: column;
     align-items: center;
 }
 
-#header{
-    display: inline-block;
-    padding-bottom: 10px;
+.v-bar { 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-#menu, #scorelbl {
-    display: inline-flex;
-    /* margin-right: 10px; */
+.h-bar, #header { 
+    display: flex;
+    align-items: center;
 }
 
-body {
-    /* Disables pull-to-refresh but allows overscroll glow effects. */
-    overscroll-behavior-y: contain;
+.h-bar > div, .v-bar > div {
+    background-color: #f1f1f1;
+    margin: 1px;
+    padding: 1px;
+    font-size: 15px;
+}
+
+#game-options , #menu {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;    
 }
