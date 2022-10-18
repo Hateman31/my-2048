@@ -70,14 +70,16 @@
                                   (or (= old-direction new-direction)
                                       (and (not= old-direction new-direction) (= @changedDirection 1)))))
                             (rx/takeUntil touch-end)
-                            (rx/last)
+                            (rx/takeLast 1)
                             (rx/map (fn [[_ [_ direction]] _ _] direction))
                         )))   
         drag  (.pipe touch-start 
-                  ;; (rx/tap #(println "Swipe started"))
                   one-touch?
+                  ;; (rx/tap #(println "ololo"))
                   (rx/switchMap swipe-pipe))
       ]    
-    (.subscribe drag println)
+    ;; (.subscribe (.pipe swipe-pipe) println)
+    (.subscribe touch-move println)
+    ;; (.subscribe touch-start #(println "Swipe started"))
     drag
 ))
