@@ -21,7 +21,7 @@ body {
 
 .h-bar, #header { 
     display: flex;
-    align-items: center;
+    /* align-items: center; */
 }
 
 .h-bar > div, .v-bar > div {
@@ -36,4 +36,8 @@ body {
     justify-content: flex-start;
     align-items: flex-start;
     flex-wrap: wrap;    
+}
+
+#header {
+    align-self: center;
 }
