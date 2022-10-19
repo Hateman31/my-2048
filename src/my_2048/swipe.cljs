@@ -78,8 +78,5 @@
                   ;; (rx/tap #(println "ololo"))
                   (rx/switchMap swipe-pipe))
       ]    
-    ;; (.subscribe (.pipe swipe-pipe) println)
-    (.subscribe touch-move println)
-    ;; (.subscribe touch-start #(println "Swipe started"))
     drag
 ))
