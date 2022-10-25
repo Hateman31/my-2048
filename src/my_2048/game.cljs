@@ -139,4 +139,4 @@
 
 (defn win? [grid]
   (let [game-field (matrix-to-vector grid)]
-      (some (partial == 2048) grid)))
+      (some (partial == 2048) game-field)))
