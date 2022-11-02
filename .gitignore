@@ -17,3 +17,5 @@ node_modules/
 .shadow-cljs
 /resources/public/cljs-runtime
 /resources/public/main.js
+.clj-kondo/
+.lsp/
