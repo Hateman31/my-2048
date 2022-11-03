@@ -42,6 +42,15 @@
 (def score
   (atom (g/get-score @game-state)))
 
+(def ignore-ending
+  (atom false))
+
+(def win-msg
+  "You won! Do you want to continue?")
+
+(def lose-msg
+  "You lost! Do you want to play new game?")
+
 (defn update-field! [direction] 
       (let [
         shift #(g/update-grid %1 direction)]
@@ -50,44 +59,57 @@
               (->> @game-state
                 (g/rotate-grid direction)
                 g/grid-movable? ))
-          (swap! game-state shift))))
+            (swap! game-state shift))))
 
 (def undobtn
   (.getElementById js/document "undobtn"))
 
+(defn start-new-game []
+  (do
+    (reset! game-state (g/init-state))
+    (set! (.-disabled undobtn) true)))
+
+(defn finish-game []
+  (do 
+    (render-game (repeat 4 [0 0 0 0]))))
+
 (defn main []
- (do 
-  (set! (.-disabled undobtn) true)
-
-  (.subscribe (swipe/arrowSwipe) update-field!)
-  (.subscribe (swipe/touchSwipe game) update-field!)
+ (do
+   (set! (.-disabled undobtn) true)
+  ;;  (println @game-state)
+   (.subscribe (swipe/arrowSwipe) update-field!)
+   (.subscribe (swipe/touchSwipe game) update-field!)
   ;; (.subscribe (swipe/touchSwipe js/document) update-field!)
-  (.subscribe 
-    (rx/fromEvent (.getElementById js/document "newgamebtn") "click") 
-      #(do 
-        (reset! game-state (g/init-state))
-        (set! (.-disabled undobtn) true)))
-  
-  (.subscribe 
-    (rx/fromEvent undobtn "click") 
+   (.subscribe
+      (rx/fromEvent (.getElementById js/document "newgamebtn") "click")
+      #(start-new-game))
+
+   (.subscribe
+      (rx/fromEvent undobtn "click")
       #(do (reset! game-state @prev-game-state)
-        (set! (.-disabled undobtn) true)))
+          (set! (.-disabled undobtn) true)))
 
-  (add-watch game-state :updating
-    #(do 
-       (render-game %4)
-       (reset! prev-game-state %3)
-       (set! (.-disabled undobtn) false)
-       (swap! score (fn [] (g/get-score %4)))
-       (render-score @score)))
+   (add-watch game-state :updating
+      #(do
+          (println @ignore-ending (g/win? %4))
+          (render-game %4)
+          (reset! prev-game-state %3)
+          (set! (.-disabled undobtn) false)
+          (swap! score (fn [] (g/get-score %4)))
+          (render-score @score)))
 
-  (add-watch game-state :game-ending
-    #(let [game-state %4]
-        (cond 
-          (g/win? game-state)
-            (js/alert "You won!")
-          (g/lose? game-state)
-            (js/alert "You lost!"))))
-  
-  (render-game @game-state)
-  (render-score @score)))
+   (add-watch game-state :game-ending
+      #(let [game-state %4]
+          (cond
+            (and (not @ignore-ending) (g/win? game-state))
+              (let [continue? (js/confirm win-msg)]
+                (if continue?
+                  (swap! ignore-ending (fn [] continue?))
+                  (finish-game)))
+            (g/lose? game-state)
+              (if (js/confirm lose-msg) 
+                (do (start-new-game))
+                (do (finish-game))))))
+
+   (render-game @game-state)
+   (render-score @score)))
