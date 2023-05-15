@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "description": "Clone of popular game 2048 made via ClojureScript.",
   "main": "index.js",
-  "dependencies": {},
   "devDependencies": {
-    "rxjs": "^7.5.6",
+    "rxjs": "^7.5.7",
     "shadow-cljs": "^2.19.6"
   },
   "scripts": {
