@@ -1,1 +1,1 @@
-npx shadow-cljs compile frontend
+npx shadow-cljs release frontend
