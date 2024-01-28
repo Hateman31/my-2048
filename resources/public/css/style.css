@@ -5,7 +5,8 @@ body {
 
 #game { 
     border: 1px solid black;
-    margin-top:2% 
+    margin-top:2% ;
+    width: 99%
 }
 
 #app{
