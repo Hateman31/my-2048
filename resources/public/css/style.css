@@ -9,6 +9,11 @@ body {
     width: 99%
 }
 
+canvas {
+    width: min(95vw, 80vh);
+    height: min(95vw, 80vh);
+}
+
 #app{
     display: flex;
     /* flex-wrap: wrap; */
