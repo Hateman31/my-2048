@@ -2,8 +2,7 @@
   (:require [my-2048.utils :as u]
     [my-2048.game :as g]
     [rxjs :as rx]
-    [my-2048.swipe :as swipe]
-    ))
+    [my-2048.swipe :as swipe] ))
 
 (def game 
   (.getElementById js/document "game"))
@@ -28,6 +27,7 @@
   (->> game-state
       g/matrix-to-vector
       (map list (u/get-vertexes tile-size 4 3))
+      ;; (println)
       (u/draw-field background tile-size)))
 
 (defn render-score [new-score] 
@@ -73,6 +73,15 @@
   (do 
     (render-game (repeat 4 [0 0 0 0]))))
 
+(defn redner-general-fn []
+  (do 
+    (render-game @game-state)
+    (render-score @score)))
+
+(defn delay-exec [render-fn]
+  (let [wdw js/window]
+    (set! (.-onload wdw) render-fn)))
+
 (defn main []
  (do
    (set! (.-disabled undobtn) true)
@@ -111,5 +120,7 @@
                 (do (start-new-game))
                 (do (finish-game))))))
 
-   (render-game @game-state)
-   (render-score @score)))
+  ;;  (render-game @game-state)
+  ;;  (render-score @score)
+  (delay-exec redner-general-fn) 
+))
