@@ -10,6 +10,6 @@
         {:frontend
             {:target :browser
             :output-dir "resources/public"
-            :modules {:main {:init-fn my_2048.core/main}}
+            :modules {:main {:init-fn my-2048.core/main}}
             ;; :compiler-options {:output-feature-set :bare-minimum}
         }}}
